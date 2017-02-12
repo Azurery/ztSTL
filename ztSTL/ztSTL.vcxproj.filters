@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Test">
+      <UniqueIdentifier>{fb0bc06b-6f4f-4eb9-b1a8-e8f9dce3123f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Container">
+      <UniqueIdentifier>{ff22c07e-3767-4deb-9f6d-0959f9210ede}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Algorithms">
+      <UniqueIdentifier>{a736d0f9-68fa-42bb-9a59-350c72841cb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Structure">
+      <UniqueIdentifier>{7959f04d-fe9f-435b-9008-796647591c0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Sort">
+      <UniqueIdentifier>{abf59fb6-ea13-4bb5-a22d-ff60fb64d0c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Search">
+      <UniqueIdentifier>{d34453a5-38e1-4bae-990d-ac034c4ecbae}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Allocator.h">
+      <Filter>头文件\Container</Filter>
+    </ClInclude>
+    <ClInclude Include="Iterator.h">
+      <Filter>头文件\Container</Filter>
+    </ClInclude>
+    <ClInclude Include="List.h">
+      <Filter>头文件\Container</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>头文件\Container</Filter>
+    </ClInclude>
+    <ClInclude Include="Deque.h">
+      <Filter>头文件\Container</Filter>
+    </ClInclude>
+    <ClInclude Include="Forward_list.h">
+      <Filter>头文件\Container</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph.h">
+      <Filter>头文件\Container</Filter>
+    </ClInclude>
+    <ClInclude Include="Heap.h">
+      <Filter>头文件\Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="Base_algo.h">
+      <Filter>头文件\Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="BSTree.h">
+      <Filter>头文件\Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="String_.h">
+      <Filter>头文件\Container</Filter>
+    </ClInclude>
+    <ClInclude Include="BPlus_Tree.h">
+      <Filter>头文件\Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="BTree.h">
+      <Filter>头文件\Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="AVLTree.h">
+      <Filter>头文件\Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="RBTree.h">
+      <Filter>头文件\Structure</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ListTest.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
+    <ClCompile Include="VectorTest.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
+    <ClCompile Include="Forward_listTest.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphTest.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
