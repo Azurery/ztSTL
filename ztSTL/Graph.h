@@ -231,7 +231,7 @@ namespace ztSTL {
 		return -1;
 	}
 
-
+	//根据序号，取得v1(相对于v2)的下一个邻接顶点序号
 	template<typename EdgeType, typename VertexType>
 	int algraph<EdgeType, VertexType>::get_next_vertex_index(int v1, int v2) {
 		edge_node<EdgeType> *p;
@@ -331,9 +331,51 @@ namespace ztSTL {
 	//在图中删除一条边
 	//参数_vertex_val1、_vertex_val2为要删除的两个顶点数据
 	template<typename EdgeType, typename VertexType>
-	bool algraph<EdgeType, VertexType>::delete_edge(const VertexType &, const VertexType &)
+	bool algraph<EdgeType, VertexType>::delete_edge(const VertexType &_vertex_val1, const VertexType &_vertex_val2)
 	{
-		
+		//找到两个顶点在顶点表中的序号_vertex_index1、_vertex_index2
+		//两个顶点只要有一个在图中的顶点表中找不到就返回
+		int v1 = locate_vertex(_vertex_val1);
+		int v2 = locate_vertex(_vertex_val2);
+		if (v1 == -1 || v2 == -1) {
+			return false;
+		}
+		//在第一个顶点的邻接表中删除一条边
+		vertex_table[v1].remove_edge(v2);
+		//如果为无向图，则需要删除另一个顶点的领接表的一条边
+		if (graph == UDG || graph == UDN) {
+			vertex_table[v2].remove_edge(v1);
+		}
+		edge_num--;
+		return true;
+	}
+
+	//取得图中某一个顶点的第一个领接顶点序号
+	template<typename EdgeType, typename VertexType>
+	int algraph<EdgeType, VertexType>::get_first_vertex_index(int _vertex_val)
+	{
+		if (_vertex_val<0 || _vertex_val>vertex_num) {
+			return -1;
+		}
+		//如果该顶点在邻接表中的头结点不存在
+		if (vertex_table[_vertex_val].first_edge_node == nullptr) {
+			return -1;
+		}
+		else
+			return vertex_table[_vertex_val].first_edge_node->vertex_index;
+	}
+
+	template<typename EdgeType, typename VertexType>
+	bool algraph<EdgeType, VertexType>::get_edge(int _vertex_index1, int _vertex_index2, edge_node<EdgeType>*& _edge)
+	{
+		if (_vertex_index1<0 || _vertex_index1>vertex_num) {
+			return false;
+		}
+		if (_vertex_index2<0 || _vertex_index2>vertex_num) {
+			return false;
+		}
+		_edge = first_edge_node->next;
+
 	}
 
 	//根据顶点序号，取得顶点的值
