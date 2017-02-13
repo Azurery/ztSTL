@@ -2,7 +2,7 @@
 #define _ZT_GRAPH_H_
 
 #include <iostream>
-
+#include <queue>
 namespace ztSTL {
 	const int MAX_NUM = 20;
 
@@ -16,7 +16,7 @@ namespace ztSTL {
 		template<typename type1, typename type2> friend class vertex_node;
 		template<typename type1, typename type2> friend class algraph;
 	private:
-		int vertex_index;		//该边中的邻接顶点在顶点表中的序号
+		int vertex_index;//该边中的邻接顶点在顶点表中的序号
 		EdgeType weight;//该边的权重
 		edge_node *next;//指向下一条边的指针
 		edge_node() :next(nullptr) {}
@@ -112,6 +112,7 @@ namespace ztSTL {
 		int vertex_num;	//顶点个数
 		int edge_num;	//边数
 		algraph_type graph;//图的类型
+		bool* visited;	//每一个顶点的访问标志
 	public:
 		algraph() :vertex_table(nullptr), vertex_num(0), edge_num(0) {}
 		algraph(VertexType *v, int num = MAX_NUM, algraph_type = UDG);
@@ -133,10 +134,10 @@ namespace ztSTL {
 
 		bool get_vertex_value(VertexType& result, int v);
 		bool get_weight(EdgeType& result, int v1, int v2);
-		int getvertex_indexposition(int v);
 		int get_next_vertex_index(int v1, int v2);
-		void bfs(void(*visit)(const VertexType&));
-		void dfs(void(*visit)(const VertexType&));
+		void bfs_traverse(void(*visit)(const VertexType&));
+		void dfs(void(*visit)(const VertexType&), int _vertex_index);
+		void dfs_traverse(void(*visit)(const VertexType&));
 		void show();
 	};
 	//默认为无向图UDG
@@ -221,16 +222,6 @@ namespace ztSTL {
 		return false;
 	}
 
-	template<typename EdgeType, typename VertexType>
-	int algraph<EdgeType, VertexType>::getvertex_indexposition(int v) {
-		edge_node<EdgeType> *p;
-		if (v >= 0 && v < vertex_num) {
-			p = vertex_table[v].first_edge_node;
-			if (p != nullptr) return p->vertex_index;
-		}
-		return -1;
-	}
-
 	//根据序号，取得v1(相对于v2)的下一个邻接顶点序号
 	template<typename EdgeType, typename VertexType>
 	int algraph<EdgeType, VertexType>::get_next_vertex_index(int v1, int v2) {
@@ -246,6 +237,80 @@ namespace ztSTL {
 		return -1;
 	}
 
+	//以深度优先的方法遍历图
+	//参数visit是遍历到每一顶点时调用的函数
+	template<typename EdgeType, typename VertexType>
+	void algraph<EdgeType, VertexType>::bfs_traverse(void (*visit)(const VertexType &)){
+		int v;
+		edge_node<EdgeType>* cur;
+		std::queue<int> graph_queue;	//辅助队列
+		//将每一个顶点的访问标志设为false
+		visited = new bool[vertex_num];
+		for (int i = 0; i < vertex_num; ++i) {
+			visited[i] = false;
+		}
+		//从每一个顶点出发，遍历整个图
+		for (int v = 0; v < vertex_num；++i) {
+			//如果顶点v尚未被访问
+			if (!visited[v]) {
+				visited[v] = true;
+				visit(vertex_table[v].value);
+				graph_queue.push(v);		//将v入队列
+				while (!graph_queue.empty()) {
+					int u = graph_queue.front();//将队头元素保存
+					graph_queue.pop();			//队头元素出队列
+					cur = vertex_table[u].first_edge_node;//cur为序号为u的顶点在邻接表中的首结点
+					while (cur != nullptr) {
+						int w = cur->vertex_index;
+						if (!visited[w]) {
+							visited[w] = true;
+							visit(vertex_table[w].value);
+							graph_queue.push(w);
+						}
+						cur = cur->next;
+					}
+				}
+			}
+		}
+		delete[] visited;
+	}
+
+	//从第_vertex_index个顶点出发，递归地深度优先遍历图
+	template<typename EdgeType, typename VertexType>
+	void algraph<EdgeType, VertexType>::dfs(void(*visit)(const VertexType &), int _vertex_index){
+		//将序号为_vertex_index的顶点的访问标志设置为false，并利用visit函数访问
+		visited[_vertex_index] = false;	
+		visit(vertex_table[_vertex_index].value);
+		// 查找序号为_vertex_index的顶点的所有邻接顶点，该邻接顶点的序号为w，对w递归调用DFS
+		edge_node<VertexType>* cur = vertex_table[_vertex_index].first_edge_node;
+		while (cur != nullptr) {
+			int w = cur->vertex_index;
+			if (!visited[w]) {
+				dfs(visit, w);
+			}
+			cur = cur->next;
+		}
+	}
+
+	//以深度优先遍历的方式遍历图
+	//参数visit为每次访问顶点时调用的函数
+	template<typename EdgeType, typename VertexType>
+	void algraph<EdgeType, VertexType>::dfs_traverse(void(*visit)(const VertexType &)){
+		int v;
+		//将每一个顶点的访问标志都设置为false
+		visited = new bool[vertex_num];
+		for (int i = 0; i < vertex_num; ++i) {
+			visited[i] = false;
+		}
+		for (int i = 0; i < vertex_num; ++i) {
+			//对尚未被访问的顶点调用dfs
+			if (!visited[v]) {
+				dfs(visit, v);
+			}
+		}
+		delete[] visited;
+	}
+
 	//在图中插入一个顶点
 	//参数_vertex_val为要插入点的数据
 	template<typename EdgeType, typename VertexType>
@@ -255,11 +320,11 @@ namespace ztSTL {
 			std::cerr << "exceed max vertex limit!" << std::endl;
 			return false;
 		}
-		////判断相同的顶点是否存在。若存在，则返回false
-		//for (int i = 0; i < vertex_num; ++i) {
-		//	if (vertex_table[i].value == _vertex_val)
-		//		return false;
-		//}
+		//判断相同的顶点是否存在。若存在，则返回false
+		for (int i = 0; i < vertex_num; ++i) {
+			if (vertex_table[i].value == _vertex_val)
+				return false;
+		}
 		//增加一个顶点
 		vertex_table[vertex_num].value = _vertex_val;
 		vertex_table[vertex_num++].first_edge_node = nullptr;
@@ -365,6 +430,7 @@ namespace ztSTL {
 			return vertex_table[_vertex_val].first_edge_node->vertex_index;
 	}
 
+	//根据两个顶点的序号，取得两顶点之间的边
 	template<typename EdgeType, typename VertexType>
 	bool algraph<EdgeType, VertexType>::get_edge(int _vertex_index1, int _vertex_index2, edge_node<EdgeType>*& _edge)
 	{
@@ -374,7 +440,13 @@ namespace ztSTL {
 		if (_vertex_index2<0 || _vertex_index2>vertex_num) {
 			return false;
 		}
-		_edge = first_edge_node->next;
+		_edge = vertex_table[_vertex_index1].first_edge_node;
+		while (_edge != nullptr) {
+			if (_edge->vertex_index == _vertex_index2)
+				break;
+			_edge = _edge->next;
+		}
+		return _edge != nullptr;
 
 	}
 
