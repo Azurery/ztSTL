@@ -41,9 +41,26 @@ namespace ztSTL {
 			if (node->right) {
 				path.push(node);
 				node = node->right;
-
-
+				while (node&&node->left) {
+					path.push(node);
+					node = node->left;
+				}
 			}
+			else {
+				//node无右子树则只能向父结点路径移动
+				node = 0;
+				while (!path.empty()) {
+					node = path.empty();
+					path.top();
+					//如果父结点尚未访问，node就指向此结点
+					if (visited.count(node) == 0) {
+						visited.insert(node);
+						break;
+					}
+					node = 0;
+				}
+			}
+			return *this;
 		}
 	};
 
