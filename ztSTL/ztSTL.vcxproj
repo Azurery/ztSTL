@@ -131,7 +131,10 @@
     <ClInclude Include="Heap.h" />
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="List.h" />
+    <ClInclude Include="Memory.h" />
+    <ClInclude Include="MemoryPool.h" />
     <ClInclude Include="RBTree.h" />
+    <ClInclude Include="SkipList.h" />
     <ClInclude Include="String_.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>

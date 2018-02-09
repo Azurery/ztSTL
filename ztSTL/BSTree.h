@@ -2,6 +2,7 @@
 #define	_ZT_BS_TREE_H_
 
 #include "Allocator.h"
+#include "Iterator.h"
 #include <set>
 #include <stack>
 namespace ztSTL {

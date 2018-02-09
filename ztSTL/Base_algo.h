@@ -9,5 +9,7 @@ namespace ztSTL {
 			init = init + *first;
 		return init;
 	}
+
+	template <typename 
 }
 #endif

@@ -31,6 +31,9 @@
     <Filter Include="头文件\Search">
       <UniqueIdentifier>{d34453a5-38e1-4bae-990d-ac034c4ecbae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\Utilities">
+      <UniqueIdentifier>{c08bf144-4c59-4a71-8787-91f907499c31}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Allocator.h">
@@ -77,6 +80,15 @@
     </ClInclude>
     <ClInclude Include="RBTree.h">
       <Filter>头文件\Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory.h">
+      <Filter>头文件\Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="SkipList.h">
+      <Filter>头文件\Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryPool.h">
+      <Filter>头文件\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
